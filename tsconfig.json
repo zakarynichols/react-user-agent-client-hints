@@ -21,4 +21,5 @@
     "listFiles": false
   },
   "include": ["./src", "user-agent-client-hints.d.ts"]
+  // "exclude": ["**/*__tests__"]
 }

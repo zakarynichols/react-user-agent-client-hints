@@ -3,7 +3,17 @@
     "browser": true,
     "es2021": true
   },
-  "ignorePatterns": ["dist", "public", "example", "node_modules", "*.d.ts", "*.js", ".jsx"],
+  "ignorePatterns": [
+    "dist",
+    "public",
+    "example",
+    "node_modules",
+    "*.d.ts",
+    "*.js",
+    ".jsx",
+    "*.test.tsx",
+    "*.test.ts"
+  ],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",

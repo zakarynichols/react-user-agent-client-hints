@@ -17,11 +17,11 @@ const LOW_ENTROPY: LowEntropy = "low"
 export function useUserAgentClientHints(params: {
   entropy: HighEntropy
   hints: Hint[]
-}): UADataValues
+}): UADataValues | Error
 export function useUserAgentClientHints(params: {
   entropy: LowEntropy
-}): UALowEntropyJSON
-export function useUserAgentClientHints(): UALowEntropyJSON
+}): UALowEntropyJSON | Error
+export function useUserAgentClientHints(): UALowEntropyJSON | Error
 
 /**
  * Type-safe hook for accessing the current browser and operating system information.
@@ -33,9 +33,8 @@ export function useUserAgentClientHints(): UALowEntropyJSON
 export function useUserAgentClientHints(params?: {
   entropy: HighEntropy | LowEntropy
   hints?: Hint[]
-}): UADataValues | UALowEntropyJSON {
-  const [error, setError] = useState<null | Error>(null)
-
+}): UADataValues | UALowEntropyJSON | Error {
+  const [error, setError] = useState<Error | null>(null)
   const [state, dispatch] = useReducer(userAgentReducer, initState)
 
   useEffect(() => {
@@ -43,52 +42,65 @@ export function useUserAgentClientHints(params?: {
       switch (params?.entropy) {
         case HIGH_ENTROPY: {
           if (params.hints === undefined) {
-            setError(new Error("Cannot have high entropy and no hints."))
-            return
+            throw new Error("Cannot have high entropy and no hints.")
           }
 
-          const data = await getHighEntropyUserAgentData(params.hints)
+          try {
+            const data = await getHighEntropyUserAgentData(params.hints)
 
-          if (data instanceof Error) {
-            setError(data)
-            break
+            if (data) dispatch({ type: HIGH_ENTROPY, payload: data })
+          } catch (err: unknown) {
+            throw new Error("Could not retrieve high-entropy user-agent data.")
           }
 
-          dispatch({ type: HIGH_ENTROPY, payload: data })
           break
         }
         case LOW_ENTROPY: {
           const data = getLowEntropyUserAgentData()
+
+          if (!data) {
+            throw new Error("Could not retrieve low-entropy user-agent data.")
+          }
+
           dispatch({ type: LOW_ENTROPY, payload: data })
+
           break
         }
         case undefined: {
           const data = getLowEntropyUserAgentData()
+
+          if (!data) {
+            throw new Error("Could not retrieve low-entropy user-agent data.")
+          }
+
           dispatch({ type: LOW_ENTROPY, payload: data })
+
           break
         }
         default: {
-          setError(new Error("An unexpected case has been encountered."))
-          break
+          throw new Error("An unexpected case has been encountered.")
         }
       }
     }
-    void getUserAgentData()
+    getUserAgentData().catch(err => {
+      if (err instanceof Error) setError(err)
+      else setError(new Error("An unexpected error has occurred."))
+    })
   }, [params?.entropy, params?.hints])
 
-  if (error instanceof Error) throw error
+  if (error instanceof Error) return error
 
   return state
 }
 
 async function getHighEntropyUserAgentData(
   hints: Hint[]
-): Promise<UADataValues | Error> {
+): Promise<UADataValues | void> {
   try {
     const agentData = await navigator.userAgentData?.getHighEntropyValues(hints)
 
     if (agentData === undefined) {
-      return new Error("Could not return user-agent data.")
+      throw new Error("Could not return user-agent data.")
     }
 
     return agentData
@@ -97,14 +109,14 @@ async function getHighEntropyUserAgentData(
       throw new Error("An unexpected error has occurred.")
 
     if (err.name === "NotAllowedError") {
-      return new Error("Permission denied accessing user-agent data.")
+      throw new Error("Permission denied accessing user-agent data.")
     }
 
-    return err
+    throw err
   }
 }
 
-function getLowEntropyUserAgentData(): UALowEntropyJSON {
+function getLowEntropyUserAgentData(): UALowEntropyJSON | void {
   if (navigator.userAgentData === undefined)
     throw new Error("Client does not have user-agent data.")
   return navigator.userAgentData.toJSON()
