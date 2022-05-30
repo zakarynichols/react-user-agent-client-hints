@@ -4,8 +4,9 @@
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
-    "test": "jest --config jest.config.js",
-    "start": "node webpack-server.js"
+    "test": "jest --config jest.config.js --watchAll",
+    "start": "node webpack-server.js",
+    "build": "tsc"
   },
   "author": "Zak Nichols",
   "license": "ISC",
