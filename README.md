@@ -1,5 +1,9 @@
 # React User Agent Client Hints
 
+[![codecov](https://codecov.io/gh/zaknicholsdev/react-user-agent-client-hints/branch/develop/graph/badge.svg)](https://codecov.io/gh/zaknicholsdev/react-user-agent-client-hints)
+
+![example workflow](https://github.com/zaknicholsdev/react-user-agent-client-hints/actions/workflows/ci-cd.yml/badge.svg?branch=develop)
+
 Hook for getting information about the browser and operating system of a user.
 
 ### Potential Use Cases
