@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1653872166139" clover="3.2.0">
+  <project timestamp="1653872166139" name="All files">
+    <metrics statements="47" coveredstatements="47" conditionals="56" coveredconditionals="52" methods="12" coveredmethods="12" elements="115" coveredelements="111" complexity="0" loc="47" ncloc="47" packages="2" files="3" classes="3"/>
+    <package name="src">
+      <metrics statements="5" coveredstatements="5" conditionals="30" coveredconditionals="30" methods="5" coveredmethods="5"/>
+      <file name="index.ts" path="/home/zaknicholsdev/react-user-agent-client-hints/src/index.ts">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      </file>
+      <file name="types.ts" path="/home/zaknicholsdev/react-user-agent-client-hints/src/types.ts">
+        <metrics statements="5" coveredstatements="5" conditionals="30" coveredconditionals="30" methods="5" coveredmethods="5"/>
+        <line num="30" count="146" type="stmt"/>
+        <line num="34" count="20" type="stmt"/>
+        <line num="48" count="20" type="cond" truecount="2" falsecount="0"/>
+        <line num="60" count="2" type="stmt"/>
+        <line num="66" count="2" type="cond" truecount="2" falsecount="0"/>
+      </file>
+    </package>
+    <package name="src.hooks">
+      <metrics statements="42" coveredstatements="42" conditionals="26" coveredconditionals="22" methods="7" coveredmethods="7"/>
+      <file name="useUserAgentClientHints.ts" path="/home/zaknicholsdev/react-user-agent-client-hints/src/hooks/useUserAgentClientHints.ts">
+        <metrics statements="42" coveredstatements="42" conditionals="26" coveredconditionals="22" methods="7" coveredmethods="7"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="42" count="154" type="stmt"/>
+        <line num="43" count="154" type="stmt"/>
+        <line num="45" count="154" type="stmt"/>
+        <line num="47" count="149" type="cond" truecount="4" falsecount="0"/>
+        <line num="49" count="124" type="cond" truecount="2" falsecount="0"/>
+        <line num="50" count="1" type="stmt"/>
+        <line num="53" count="123" type="stmt"/>
+        <line num="55" count="20" type="cond" truecount="1" falsecount="1"/>
+        <line num="56" count="20" type="stmt"/>
+        <line num="58" count="20" type="stmt"/>
+        <line num="61" count="2" type="stmt"/>
+        <line num="63" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="64" count="1" type="stmt"/>
+        <line num="66" count="1" type="stmt"/>
+        <line num="69" count="2" type="stmt"/>
+        <line num="71" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="72" count="1" type="stmt"/>
+        <line num="74" count="1" type="stmt"/>
+        <line num="77" count="21" type="stmt"/>
+        <line num="81" count="149" type="stmt"/>
+        <line num="82" count="127" type="cond" truecount="1" falsecount="1"/>
+        <line num="86" count="154" type="cond" truecount="2" falsecount="0"/>
+        <line num="88" count="32" type="stmt"/>
+        <line num="94" count="123" type="stmt"/>
+        <line num="95" count="123" type="stmt"/>
+        <line num="97" count="49" type="cond" truecount="2" falsecount="0"/>
+        <line num="98" count="29" type="stmt"/>
+        <line num="101" count="20" type="stmt"/>
+        <line num="103" count="103" type="cond" truecount="2" falsecount="0"/>
+        <line num="104" count="26" type="stmt"/>
+        <line num="106" count="77" type="cond" truecount="2" falsecount="0"/>
+        <line num="107" count="24" type="stmt"/>
+        <line num="110" count="53" type="stmt"/>
+        <line num="115" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="116" count="2" type="stmt"/>
+        <line num="118" count="2" type="stmt"/>
+        <line num="121" count="1" type="stmt"/>
+        <line num="130" count="21" type="cond" truecount="2" falsecount="0"/>
+        <line num="132" count="19" type="stmt"/>
+        <line num="135" count="2" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>
