@@ -52,9 +52,9 @@ export function useUserAgentClientHints(params?: {
 
           const data = await getHighEntropyUserAgentData(params.hints)
 
-          if (isUADataValues(data))
+          if (isUADataValues(data)) {
             dispatch({ type: HIGH_ENTROPY, payload: data })
-
+          }
           break
         }
         case LOW_ENTROPY: {
