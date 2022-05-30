@@ -1,4 +1,4 @@
-name: Install, build, and test
+name: Install dependencies, compile TypeScript, and run tests.
 
 on:
   push:
@@ -25,10 +25,10 @@ jobs:
       - name: Install dependencies
         run: |
           npm install
-      - name: Bundle static assets
+      - name: Compile TypeScript
         run: |
           npm run build
-      - name: Run all tests
+      - name: Run tests
         run: |
           npm run test
       - name: Codecov

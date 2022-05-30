@@ -54,8 +54,5 @@
   },
   "files": [
     "dist"
-  ],
-  "browsersList": [
-    "last 2 Chrome versions"
   ]
 }

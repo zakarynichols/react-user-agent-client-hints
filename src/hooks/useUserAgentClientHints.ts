@@ -6,7 +6,7 @@ import {
   UALowEntropyJSON
 } from "../types"
 
-export type Hint =
+type Hint =
   | "architecture"
   | "model"
   | "bitness"
@@ -19,14 +19,26 @@ type LowEntropy = "low"
 const HIGH_ENTROPY: HighEntropy = "high"
 const LOW_ENTROPY: LowEntropy = "low"
 
-export function useUserAgentClientHints(params: {
+const notAllowedErrorName = "NotAllowedError"
+
+const errors = {
+  highEntropyAndNoHints: "Cannot have high entropy and no hints.",
+  unexpectedErrorOccurred: "An unexpected error has been occurred.",
+  userAgentApiUndefined: "User-agent client hints API is undefined.",
+  permissionDenied: "Permission denied accessing user-agent data."
+}
+
+/**
+ * Overloads to help infer the correct return type.
+ */
+function useUserAgentClientHints(params: {
   entropy: HighEntropy
   hints: Hint[]
 }): UADataValues | Error
-export function useUserAgentClientHints(params: {
+function useUserAgentClientHints(params: {
   entropy: LowEntropy
 }): UALowEntropyJSON | Error
-export function useUserAgentClientHints(): UALowEntropyJSON | Error
+function useUserAgentClientHints(): UALowEntropyJSON | Error
 
 /**
  * Type-safe hook for accessing the current browser and operating system information.
@@ -34,7 +46,7 @@ export function useUserAgentClientHints(): UALowEntropyJSON | Error
  * @param hints Collection of strongly typed strings hinting to the returned user-agent data.
  * @returns User agent data mapped from the hints argument or an error.
  */
-export function useUserAgentClientHints(params?: {
+function useUserAgentClientHints(params?: {
   entropy: HighEntropy | LowEntropy
   hints?: Hint[]
 }): UADataValues | UALowEntropyJSON | Error {
@@ -46,7 +58,7 @@ export function useUserAgentClientHints(params?: {
       switch (params?.entropy) {
         case HIGH_ENTROPY: {
           if (params.hints === undefined) {
-            throw new Error("Cannot have high entropy and no hints.")
+            throw new Error(errors.highEntropyAndNoHints)
           }
 
           const data = await getHighEntropyUserAgentData(params.hints)
@@ -73,7 +85,7 @@ export function useUserAgentClientHints(params?: {
           break
         }
         default: {
-          throw new Error("An unexpected case has been encountered.")
+          throw new Error(errors.unexpectedErrorOccurred)
         }
       }
     }
@@ -94,16 +106,15 @@ async function getHighEntropyUserAgentData(
     const agentData = await navigator.userAgentData?.getHighEntropyValues(hints)
 
     if (agentData === undefined) {
-      throw new Error("Could not return user-agent data.")
+      throw new Error(errors.userAgentApiUndefined)
     }
 
     return agentData
   } catch (err: unknown) {
-    if (!(err instanceof Error))
-      throw new Error("An unexpected error has occurred.")
+    if (!(err instanceof Error)) throw new Error(errors.unexpectedErrorOccurred)
 
-    if (err.name === "NotAllowedError") {
-      throw new Error("Permission denied accessing user-agent data.")
+    if (err.name === notAllowedErrorName) {
+      throw new Error(errors.permissionDenied)
     }
 
     throw err
@@ -112,7 +123,7 @@ async function getHighEntropyUserAgentData(
 
 function getLowEntropyUserAgentData(): UALowEntropyJSON | void {
   if (navigator.userAgentData === undefined)
-    throw new Error("Client does not have user-agent data.")
+    throw new Error(errors.userAgentApiUndefined)
 
   return navigator.userAgentData.toJSON()
 }
@@ -135,3 +146,5 @@ function userAgentReducer(
     }
   }
 }
+
+export { useUserAgentClientHints, errors, notAllowedErrorName }

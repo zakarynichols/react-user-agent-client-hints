@@ -1,4 +1,4 @@
-import { useUserAgentClientHints } from "../useUserAgentClientHints"
+import { errors, useUserAgentClientHints } from "../useUserAgentClientHints"
 import { renderHook, waitFor } from "@testing-library/react"
 
 const lowEntropyUserAgentData: UALowEntropyJSON = {
@@ -42,9 +42,7 @@ it("returns an error is low entropy user-agent data is note defined.", async () 
   })
   const { result } = renderHook(() => useUserAgentClientHints())
   await waitFor(() => {
-    expect(result.current).toEqual(
-      new Error("Client does not have user-agent data.")
-    )
+    expect(result.current).toEqual(new Error(errors.userAgentApiUndefined))
   })
 })
 
@@ -57,9 +55,7 @@ it("returns an error is low entropy user-agent data is note defined with 'low' e
     useUserAgentClientHints({ entropy: "low" })
   )
   await waitFor(() => {
-    expect(result.current).toEqual(
-      new Error("Client does not have user-agent data.")
-    )
+    expect(result.current).toEqual(new Error(errors.userAgentApiUndefined))
   })
 })
 
@@ -103,7 +99,7 @@ it("returns an error if the getting high-entropy user-agent data rejects.", asyn
   })
 })
 
-it("returns an error if the user-agent data interface is not defined.", async () => {
+it("returns an error if the high entropy user-agent data interface is not defined.", async () => {
   Object.defineProperty(navigator, "userAgentData", {
     value: undefined,
     writable: true
@@ -114,13 +110,11 @@ it("returns an error if the user-agent data interface is not defined.", async ()
   )
 
   await waitFor(() => {
-    expect(result.current).toEqual(
-      new Error("Could not return user-agent data.")
-    )
+    expect(result.current).toEqual(new Error(errors.userAgentApiUndefined))
   })
 })
 
-it("returns an error if entropy is defined, but not hints.", async () => {
+it("returns an error if high entropy is defined, but not hints.", async () => {
   Object.defineProperty(navigator, "userAgentData", {
     value: undefined,
     writable: true
@@ -129,7 +123,7 @@ it("returns an error if entropy is defined, but not hints.", async () => {
   const { result } = renderHook(
     () =>
       //@ts-ignore
-      useUserAgentClientHints({ entropy: "high", hints: undefined }) // TypeScript will not compile with hints undefined due to the overloads, but test anyway.
+      useUserAgentClientHints({ entropy: "high", hints: undefined }) // An overload is defined to prevent this combination of arguments.
   )
 
   await waitFor(() => {
@@ -148,22 +142,20 @@ it("returns an error if an unexpected action was passed.", async () => {
   const { result } = renderHook(
     () =>
       //@ts-ignore
-      useUserAgentClientHints({ entropy: "cannot happen", hints: [] }) // TypeScript will not compile with hints undefined due to the overloads, but test anyway.
+      useUserAgentClientHints({ entropy: "cannot happen", hints: [] }) // An overload is defined to prevent this combination of arguments.
   )
 
   await waitFor(() => {
-    expect(result.current).toEqual(
-      new Error("An unexpected case has been encountered.")
-    )
+    expect(result.current).toEqual(new Error(errors.unexpectedErrorOccurred))
   })
 })
 
-it("returns a fallback error if an something other than an erro was thrown.", async () => {
+it("returns a fallback error if an something other than an error instance was thrown.", async () => {
   Object.defineProperty(navigator, "userAgentData", {
     value: {
       toJSON: () => lowEntropyUserAgentData,
       getHighEntropyValues: (hints: string[]) => {
-        throw { weird: "weird" }
+        throw { malformed: "malformed" }
       }
     },
     writable: true
@@ -178,9 +170,7 @@ it("returns a fallback error if an something other than an erro was thrown.", as
   })
 
   await waitFor(() => {
-    expect(result.current).toEqual(
-      new Error("An unexpected error has occurred.")
-    )
+    expect(result.current).toEqual(new Error(errors.unexpectedErrorOccurred))
   })
 })
 

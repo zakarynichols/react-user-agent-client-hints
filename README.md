@@ -4,7 +4,7 @@
 
 ![example workflow](https://github.com/zaknicholsdev/react-user-agent-client-hints/actions/workflows/ci-cd.yml/badge.svg?branch=develop)
 
-Hook for getting information about the browser and operating system of a user.
+React hook implementing the User-Agent Client Hints API to get information about the browser and operating system of a user.
 
 ### Potential Use Cases
 
@@ -47,13 +47,18 @@ const hints: Hint[] = useMemo(
  * system and browser. Under the hood is async allowing time for the
  * browser to request user permission, or make other checks.
  */
-const highEntropy = useUserAgentClientHints({ entropy: "high", hints })
+const highEntropyUAData = useUserAgentClientHints({ entropy: "high", hints })
 
 /*
  * Low entropy runs sync, but potentially does not reveal enough information
  * able to identify a user.
  */
-const lowEntropy = useUserAgentClientHints({ entropy: "low" })
+const lowEntropyUAData = useUserAgentClientHints({ entropy: "low" })
+
+/*
+ * Can call without parameters too.
+ */
+const UADataNoParams = useUserAgentClientHint()
 ```
 
 ### References
