@@ -33,18 +33,10 @@ export type Hint =
   | "bitness"
   | "platformVersion"
   | "fullVersionList"
-  | "uaFullVersion"
 
 export type HighEntropy = "high"
 
 export type LowEntropy = "low"
-
-// function hasKey<K extends string, T extends object>(
-//   k: K,
-//   o: T
-// ): o is T & Record<K, unknown> {
-//   return k in o
-// }
 
 function isDefined<T>(params: T): params is T {
   return params !== undefined

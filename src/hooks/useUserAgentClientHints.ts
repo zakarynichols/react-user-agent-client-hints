@@ -57,7 +57,6 @@ function useUserAgentClientHints(params?: {
           const data = await getHighEntropyUserAgentData(params.hints)
 
           if (isUADataValues(data)) {
-            console.log(data)
             dispatch({ type: HIGH_ENTROPY, payload: data })
           }
           break
@@ -83,7 +82,7 @@ function useUserAgentClientHints(params?: {
         }
       }
     }
-    getUserAgentData().catch(err => {
+    void getUserAgentData().catch(err => {
       if (err instanceof Error) setError(err)
     })
   }, [params?.entropy, params?.hints])
