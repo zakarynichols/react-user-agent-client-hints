@@ -1,3 +1,3 @@
 export { useUserAgentClientHints } from "./hooks/useUserAgentClientHints"
 
-export { UADataValues, UALowEntropyJSON } from "./types"
+export { UADataValues, UALowEntropyJSON, Hint } from "./types"

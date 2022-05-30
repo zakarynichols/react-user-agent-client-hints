@@ -68,7 +68,16 @@ it("returns high entropy user-agent data when passed 'high' entropy parameter.",
     writable: true
   })
   const { result } = renderHook(() =>
-    useUserAgentClientHints({ entropy: "high", hints: [] })
+    useUserAgentClientHints({
+      entropy: "high",
+      hints: [
+        "architecture",
+        "bitness",
+        "fullVersionList",
+        "model",
+        "platformVersion"
+      ]
+    })
   )
   await waitFor(() => {
     expect(result.current).toEqual(highEntropyUserAgentData)
@@ -89,7 +98,16 @@ it("returns an error if the getting high-entropy user-agent data rejects.", asyn
   })
 
   const { result } = renderHook(() =>
-    useUserAgentClientHints({ entropy: "high", hints: [] })
+    useUserAgentClientHints({
+      entropy: "high",
+      hints: [
+        "architecture",
+        "bitness",
+        "fullVersionList",
+        "model",
+        "platformVersion"
+      ]
+    })
   )
 
   await waitFor(() => {
@@ -106,7 +124,16 @@ it("returns an error if the high entropy user-agent data interface is not define
   })
 
   const { result } = renderHook(() =>
-    useUserAgentClientHints({ entropy: "high", hints: [] })
+    useUserAgentClientHints({
+      entropy: "high",
+      hints: [
+        "architecture",
+        "bitness",
+        "fullVersionList",
+        "model",
+        "platformVersion"
+      ]
+    })
   )
 
   await waitFor(() => {

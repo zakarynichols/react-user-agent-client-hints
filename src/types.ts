@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 // https://wicg.github.io/ua-client-hints/#dictdef-navigatoruabrandversion
 export interface NavigatorUABrandVersion {
   readonly brand: string
@@ -23,51 +27,55 @@ export interface UALowEntropyJSON {
   readonly platform: string
 }
 
-function hasKey<K extends string, T extends object>(
-  k: K,
-  o: T
-): o is T & Record<K, unknown> {
-  return k in o
+export type Hint =
+  | "architecture"
+  | "model"
+  | "bitness"
+  | "platformVersion"
+  | "fullVersionList"
+  | "uaFullVersion"
+
+export type HighEntropy = "high"
+
+export type LowEntropy = "low"
+
+// function hasKey<K extends string, T extends object>(
+//   k: K,
+//   o: T
+// ): o is T & Record<K, unknown> {
+//   return k in o
+// }
+
+function isDefined<T>(params: T): params is T {
+  return params !== undefined
 }
 
-export function isUADataValues(params: unknown): params is UADataValues {
+export function isUADataValues(params: any): params is UADataValues {
   return (
-    typeof params === "object" &&
     params !== null &&
-    hasKey("architecture", params) &&
-    typeof params.architecture === "string" &&
-    hasKey("mobile", params) &&
-    typeof params.mobile === "boolean" &&
-    hasKey("platform", params) &&
-    typeof params.platform === "string" &&
-    hasKey("bitness", params) &&
-    typeof params.bitness === "string" &&
-    hasKey("brands", params) &&
-    Array.isArray(params.brands) &&
-    params.brands.every(
-      (brand: NavigatorUABrandVersion) => brand.brand && brand.version
-    ) &&
-    hasKey("model", params) &&
-    typeof params.model === "string" &&
-    hasKey("platformVersion", params) &&
-    typeof params.platformVersion === "string"
+    typeof params === "object" &&
+    (!isDefined(params.brands) || Array.isArray(params.brands)) &&
+    (!isDefined(params.mobile) || typeof params.mobile === "boolean") &&
+    (!isDefined(params.platform) || typeof params.platform === "string") &&
+    (!isDefined(params.architecture) ||
+      typeof params.architecture === "string") &&
+    (!isDefined(params.bitness) || typeof params.bitness === "string") &&
+    (!isDefined(params.uaFullVersion) ||
+      typeof params.uaFullVersion === "string") &&
+    (!isDefined(params.model) || typeof params.model === "string") &&
+    (!isDefined(params.platformVersion) ||
+      typeof params.platformVersion === "string") &&
+    (!isDefined(params.fullVersionList) ||
+      Array.isArray(params.fullVersionList))
   )
 }
 
-export function isUALowEntropyJSON(
-  params: unknown
-): params is UALowEntropyJSON {
+export function isUALowEntropyJSON(params: any): params is UALowEntropyJSON {
   return (
-    typeof params === "object" &&
     params !== null &&
-    hasKey("brands", params) &&
-    Array.isArray(params.brands) &&
-    params.brands.every(
-      (brand: NavigatorUABrandVersion) => brand.brand && brand.version
-    ) &&
-    hasKey("mobile", params) &&
-    typeof params.mobile === "boolean" &&
-    hasKey("platform", params) &&
-    typeof params.platform === "string"
+    typeof params === "object" &&
+    (!isDefined(params.brands) || Array.isArray(params.brands)) &&
+    (!isDefined(params.mobile) || typeof params.mobile === "boolean") &&
+    (!isDefined(params.platform) || typeof params.platform === "string")
   )
 }

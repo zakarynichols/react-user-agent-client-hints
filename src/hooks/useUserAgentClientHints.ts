@@ -1,20 +1,13 @@
 import { useEffect, useReducer, useState } from "react"
 import {
+  HighEntropy,
+  Hint,
   isUADataValues,
   isUALowEntropyJSON,
+  LowEntropy,
   UADataValues,
   UALowEntropyJSON
 } from "../types"
-
-type Hint =
-  | "architecture"
-  | "model"
-  | "bitness"
-  | "platformVersion"
-  | "fullVersionList"
-
-type HighEntropy = "high"
-type LowEntropy = "low"
 
 const HIGH_ENTROPY: HighEntropy = "high"
 const LOW_ENTROPY: LowEntropy = "low"
@@ -64,6 +57,7 @@ function useUserAgentClientHints(params?: {
           const data = await getHighEntropyUserAgentData(params.hints)
 
           if (isUADataValues(data)) {
+            console.log(data)
             dispatch({ type: HIGH_ENTROPY, payload: data })
           }
           break
