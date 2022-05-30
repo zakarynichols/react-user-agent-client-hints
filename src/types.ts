@@ -17,7 +17,7 @@ export interface UADataValues {
   readonly bitness?: string
   readonly model?: string
   readonly platformVersion?: string
-  readonly uaFullVersion?: string
+  readonly fullVersionList?: NavigatorUABrandVersion[]
 }
 
 // https://wicg.github.io/ua-client-hints/#dictdef-ualowentropyjson
@@ -60,8 +60,6 @@ export function isUADataValues(params: any): params is UADataValues {
     (!isDefined(params.architecture) ||
       typeof params.architecture === "string") &&
     (!isDefined(params.bitness) || typeof params.bitness === "string") &&
-    (!isDefined(params.uaFullVersion) ||
-      typeof params.uaFullVersion === "string") &&
     (!isDefined(params.model) || typeof params.model === "string") &&
     (!isDefined(params.platformVersion) ||
       typeof params.platformVersion === "string") &&

@@ -12,7 +12,8 @@ const highEntropyUserAgentData: UADataValues = {
   architecture: "x86",
   bitness: "64",
   model: "Pixel 2XL",
-  platformVersion: "10.0"
+  platformVersion: "10.0",
+  fullVersionList: [{ brand: "Google Chrome", version: "200.0.3333.99" }]
 }
 
 Object.defineProperty(navigator, "userAgentData", {
