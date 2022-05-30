@@ -23,24 +23,51 @@ export interface UALowEntropyJSON {
   readonly platform: string
 }
 
-export function isUADataValues(params: UADataValues): params is UADataValues {
+function hasKey<K extends string, T extends object>(
+  k: K,
+  o: T
+): o is T & Record<K, unknown> {
+  return k in o
+}
+
+export function isUADataValues(params: unknown): params is UADataValues {
   return (
+    typeof params === "object" &&
+    params !== null &&
+    hasKey("architecture", params) &&
     typeof params.architecture === "string" &&
+    hasKey("mobile", params) &&
     typeof params.mobile === "boolean" &&
+    hasKey("platform", params) &&
     typeof params.platform === "string" &&
+    hasKey("bitness", params) &&
     typeof params.bitness === "string" &&
+    hasKey("brands", params) &&
     Array.isArray(params.brands) &&
+    params.brands.every(
+      (brand: NavigatorUABrandVersion) => brand.brand && brand.version
+    ) &&
+    hasKey("model", params) &&
     typeof params.model === "string" &&
+    hasKey("platformVersion", params) &&
     typeof params.platformVersion === "string"
   )
 }
 
 export function isUALowEntropyJSON(
-  params: UALowEntropyJSON
+  params: unknown
 ): params is UALowEntropyJSON {
   return (
+    typeof params === "object" &&
+    params !== null &&
+    hasKey("brands", params) &&
+    Array.isArray(params.brands) &&
+    params.brands.every(
+      (brand: NavigatorUABrandVersion) => brand.brand && brand.version
+    ) &&
+    hasKey("mobile", params) &&
     typeof params.mobile === "boolean" &&
-    typeof params.platform === "string" &&
-    Array.isArray(params.brands)
+    hasKey("platform", params) &&
+    typeof params.platform === "string"
   )
 }

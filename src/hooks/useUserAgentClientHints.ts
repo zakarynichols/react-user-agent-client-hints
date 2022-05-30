@@ -1,5 +1,10 @@
 import { useEffect, useReducer, useState } from "react"
-import { UADataValues, UALowEntropyJSON } from "../types"
+import {
+  isUADataValues,
+  isUALowEntropyJSON,
+  UADataValues,
+  UALowEntropyJSON
+} from "../types"
 
 export type Hint =
   | "architecture"
@@ -45,36 +50,27 @@ export function useUserAgentClientHints(params?: {
             throw new Error("Cannot have high entropy and no hints.")
           }
 
-          try {
-            const data = await getHighEntropyUserAgentData(params.hints)
+          const data = await getHighEntropyUserAgentData(params.hints)
 
-            if (data) dispatch({ type: HIGH_ENTROPY, payload: data })
-          } catch (err: unknown) {
-            throw new Error("Could not retrieve high-entropy user-agent data.")
-          }
+          if (isUADataValues(data))
+            dispatch({ type: HIGH_ENTROPY, payload: data })
 
           break
         }
         case LOW_ENTROPY: {
           const data = getLowEntropyUserAgentData()
 
-          if (!data) {
-            throw new Error("Could not retrieve low-entropy user-agent data.")
+          if (isUALowEntropyJSON(data)) {
+            dispatch({ type: LOW_ENTROPY, payload: data })
           }
-
-          dispatch({ type: LOW_ENTROPY, payload: data })
-
           break
         }
         case undefined: {
           const data = getLowEntropyUserAgentData()
 
-          if (!data) {
-            throw new Error("Could not retrieve low-entropy user-agent data.")
+          if (isUALowEntropyJSON(data)) {
+            dispatch({ type: LOW_ENTROPY, payload: data })
           }
-
-          dispatch({ type: LOW_ENTROPY, payload: data })
-
           break
         }
         default: {
@@ -84,7 +80,6 @@ export function useUserAgentClientHints(params?: {
     }
     getUserAgentData().catch(err => {
       if (err instanceof Error) setError(err)
-      else setError(new Error("An unexpected error has occurred."))
     })
   }, [params?.entropy, params?.hints])
 
@@ -119,6 +114,7 @@ async function getHighEntropyUserAgentData(
 function getLowEntropyUserAgentData(): UALowEntropyJSON | void {
   if (navigator.userAgentData === undefined)
     throw new Error("Client does not have user-agent data.")
+
   return navigator.userAgentData.toJSON()
 }
 
@@ -138,7 +134,5 @@ function userAgentReducer(
     case LOW_ENTROPY: {
       return { ...state, ...action.payload }
     }
-    default:
-      throw new Error("An unexpected case has been reached.")
   }
 }
