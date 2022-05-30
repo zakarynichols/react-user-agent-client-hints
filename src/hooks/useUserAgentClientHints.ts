@@ -33,7 +33,6 @@ export function useUserAgentClientHints(): UALowEntropyJSON | Error
  * @param entropy Amount of information this hook reveals about the browser.
  * @param hints Collection of strongly typed strings hinting to the returned user-agent data.
  * @returns User agent data mapped from the hints argument or an error.
- * @throws
  */
 export function useUserAgentClientHints(params?: {
   entropy: HighEntropy | LowEntropy
