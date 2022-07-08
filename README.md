@@ -2,9 +2,9 @@
 
 React hook implementing the User-Agent Client Hints API to get information about the browser and operating system of a user.
 
-[![codecov](https://codecov.io/gh/zaknicholsdev/react-user-agent-client-hints/branch/develop/graph/badge.svg)](https://codecov.io/gh/zaknicholsdev/react-user-agent-client-hints)
+[![codecov](https://codecov.io/gh/zakarynichols/react-user-agent-client-hints/branch/develop/graph/badge.svg)](https://codecov.io/gh/zaknicholsdev/react-user-agent-client-hints)
 
-![example workflow](https://github.com/zaknicholsdev/react-user-agent-client-hints/actions/workflows/ci-cd.yml/badge.svg?branch=develop)
+![example workflow](https://github.com/zakarynichols/react-user-agent-client-hints/actions/workflows/ci-cd.yml/badge.svg?branch=develop)
 
 ### Potential Use Cases
 
