@@ -6,6 +6,69 @@ React hook implementing the User-Agent Client Hints API to get information about
 
 ![example workflow](https://github.com/zakarynichols/react-user-agent-client-hints/actions/workflows/ci-cd.yml/badge.svg?branch=develop)
 
+The useUserAgentData hook allows you to fetch high entropy user-agent data from the browser. It returns an object with the user-agent data, or an error if something went wrong.
+
+## Usage
+
+To use the useUserAgentData hook, you must pass an array of hints as an argument. These hints are used to request specific user-agent data.
+
+```tsx
+import { useUserAgentData } from "path/to/hook"
+
+function MyComponent() {
+  const [userAgentData, error] = useUserAgentData(["brand", "version"])
+
+  if (error) {
+    return <div>{error.message}</div>
+  }
+
+  if (!userAgentData) {
+    return <div>Loading...</div>
+  }
+
+  return (
+    <div>
+      <p>Brands: {userAgentData.brands.map(brand => brand.brand).join(", ")}</p>
+      <p>Mobile: {userAgentData.mobile ? "Yes" : "No"}</p>
+      <p>Architecture: {userAgentData.architecture}</p>
+      <p>Bitness: {userAgentData.bitness}</p>
+      <p>Model: {userAgentData.model}</p>
+      <p>Platform: {userAgentData.platform}</p>
+      <p>Platform Version: {userAgentData.platformVersion}</p>
+      <p>UA Full Version: {userAgentData.uaFullVersion}</p>
+      <p>Wow64: {userAgentData.wow64 ? "Yes" : "No"}</p>
+      <p>
+        Full Version List:{" "}
+        {userAgentData.fullVersionList.map(brand => brand.brand).join(", ")}
+      </p>
+    </div>
+  )
+}
+```
+
+```ts
+interface UADataValues {
+  brands: NavigatorUABrandVersion[]
+  mobile: boolean
+  architecture: string
+  bitness: string
+  model: string
+  platform: string
+  platformVersion: string
+  uaFullVersion: string
+  wow64: boolean
+  fullVersionList: NavigatorUABrandVersion[]
+}
+```
+
+## Error handling
+
+If there is an error while fetching the user-agent data, useUserAgentData will return an error object with a message. The possible error messages are:
+
+User-agent client hints API is undefined.: The navigator.userAgentData object is not defined in the browser.
+Permission denied accessing user-agent data: The user has not granted permission for the client hints.
+Failed to get user-agent data: An unexpected error occurred.
+
 ### Potential Use Cases
 
 - Providing custom-tailored polyfills to users on identifying that their browser lacked some web platform feature.
@@ -17,49 +80,16 @@ React hook implementing the User-Agent Client Hints API to get information about
 - Collecting information about the browser and device to identify application errors.
 - Blocking spammers, bots, and crawlers.
 
-### Installation
+## Possible Hints
 
-```sh
-$ npm install react-user-agent-client-hints
-```
-
-### Examples
-
-```ts
-import { useUserAgentClientHints, Hint } from "react-user-agent-client-hints"
-
-/*
- * An array containing the hints to be returned. Declare in a useMemo or in module scope for referential stability.
- */
-const hints: Hint[] = useMemo(
-  () => [
-    "architecture",
-    "model",
-    "bitness",
-    "platformVersion",
-    "fullVersionList"
-  ],
-  []
-)
-
-/*
- * High entropy potentially reveals more info about the operating
- * system and browser. Under the hood is async allowing time for the
- * browser to request user permission, or make other checks.
- */
-const highEntropyUAData = useUserAgentClientHints({ entropy: "high", hints })
-
-/*
- * Low entropy runs sync, but potentially does not reveal enough information
- * able to identify a user.
- */
-const lowEntropyUAData = useUserAgentClientHints({ entropy: "low" })
-
-/*
- * Can call without parameters too.
- */
-const UADataNoParams = useUserAgentClientHint()
-```
+- "brand": The brand of the user agent, such as "Google", "Apple", "Mozilla", etc.
+- "model": The model of the device, such as "iPhone", "Pixel", "Galaxy", etc.
+- "version": The version of the user agent, such as "13.0", "11.0", "78.0", etc.
+- "architecture": The architecture of the device, such as "arm", "x86", "x86_64", etc.
+- "platform": The platform the user agent is running on, such as "Windows", "macOS", "iOS", "Android", etc.
+- "mobile": A boolean indicating whether the device is a mobile device or not.
+- "fullVersionList": A list of objects representing the full version of the user agent and the brand
+- "wow64": A boolean indicating whether the user agent is running on a 32-bit version of Windows on a 64-bit system.
 
 ### References
 

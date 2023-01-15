@@ -1,43 +1,38 @@
-/**
- * ua-client-hints interface spec: https://wicg.github.io/ua-client-hints/#interface
- */
-
-// https://wicg.github.io/ua-client-hints/#dictdef-navigatoruabrandversion
 interface NavigatorUABrandVersion {
-  readonly brand: string
-  readonly version: string
+  brand: string;
+  version: string;
 }
 
-// https://wicg.github.io/ua-client-hints/#dictdef-uadatavalues
 interface UADataValues {
-  readonly brands?: NavigatorUABrandVersion[]
-  readonly mobile?: boolean
-  readonly platform?: string
-  readonly architecture?: string
-  readonly bitness?: string
-  readonly model?: string
-  readonly platformVersion?: string
-  readonly fullVersionList?: NavigatorUABrandVersion[]
+  brands: NavigatorUABrandVersion[];
+  mobile: boolean;
+  architecture: string;
+  bitness: string;
+  model: string;
+  platform: string;
+  platformVersion: string;
+  uaFullVersion: string;
+  wow64: boolean;
+  fullVersionList: NavigatorUABrandVersion[];
 }
 
-// https://wicg.github.io/ua-client-hints/#dictdef-ualowentropyjson
 interface UALowEntropyJSON {
-  readonly brands: NavigatorUABrandVersion[]
-  readonly mobile: boolean
-  readonly platform: string
+  brands: NavigatorUABrandVersion[];
+  mobile: boolean;
+  platform: string;
 }
 
-// https://wicg.github.io/ua-client-hints/#navigatoruadata
-interface NavigatorUAData extends UALowEntropyJSON {
-  getHighEntropyValues(hints: string[]): Promise<UADataValues>
-  toJSON(): UALowEntropyJSON
+interface NavigatorUAData {
+  readonly brands: NavigatorUABrandVersion[];
+  readonly mobile: boolean;
+  readonly platform: string;
+  getHighEntropyValues(hints: string[]): Promise<UADataValues>;
+  toJSON(): UALowEntropyJSON;
 }
 
-// https://wicg.github.io/ua-client-hints/#navigatorua
 interface NavigatorUA {
-  readonly userAgentData?: NavigatorUAData
+  readonly userAgentData: NavigatorUAData;
 }
 
-// Complete https://wicg.github.io/ua-client-hints/#interface
 interface Navigator extends NavigatorUA {}
 interface WorkerNavigator extends NavigatorUA {}

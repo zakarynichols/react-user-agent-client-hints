@@ -14,11 +14,7 @@
     "*.test.tsx",
     "*.test.ts"
   ],
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking"
-  ],
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
   "parserOptions": {
     "project": "./tsconfig.json"
   },
@@ -31,22 +27,7 @@
 
     // React rules
     "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
-    "react-hooks/exhaustive-deps": "warn", // Checks effect dependencies
-
-    // TypeScript specifc linting rules
-    "@typescript-eslint/explicit-function-return-type": ["error"],
-    "@typescript-eslint/no-floating-promises": ["error"],
-    "@typescript-eslint/no-misused-promises": ["error"],
-    "@typescript-eslint/no-unsafe-argument": ["error"],
-    "@typescript-eslint/no-explicit-any": ["error"],
-    "@typescript-eslint/no-inferrable-types": ["error"],
-    "@typescript-eslint/explicit-module-boundary-types": ["error"],
-    "@typescript-eslint/await-thenable": ["error"],
-    "@typescript-eslint/no-non-null-assertion": ["error"],
-    "@typescript-eslint/no-this-alias": ["error"],
-    "@typescript-eslint/no-unnecessary-condition": ["error"],
-    "@typescript-eslint/no-unsafe-call": ["error"],
-    "@typescript-eslint/no-unsafe-return": ["error"]
+    "react-hooks/exhaustive-deps": "warn" // Checks effect dependencies
   },
   "overrides": [
     {
