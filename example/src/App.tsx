@@ -1,4 +1,4 @@
-import { useUserAgentData } from "./hooks/useUserAgentData"
+import { useUserAgentData } from "react-user-agent-client-hints"
 
 export function App() {
   const [userAgentData, error] = useUserAgentData([
