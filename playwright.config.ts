@@ -16,6 +16,12 @@ const config: PlaywrightTestConfig = {
     viewport: { width: 1280, height: 720 },
     screenshot: "only-on-failure",
     video: "retain-on-failure"
+  },
+  webServer: {
+    command: "cd src && npm run start",
+    port: 3000,
+    timeout: 120 * 1000,
+    reuseExistingServer: !process.env.CI
   }
 }
 
