@@ -5,7 +5,7 @@
   "main": "./dist/index.js",
   "scripts": {
     "e2e": "npx playwright test ./tests",
-    "start": "cd example && npm run start",
+    "start": "cd example && npm install && npm run start",
     "build": "tsc",
     "build:ts": "tsc"
   },
