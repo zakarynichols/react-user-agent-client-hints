@@ -6,7 +6,7 @@
   "scripts": {
     "e2e": "npx playwright test ./tests",
     "start": "node webpack-server.js",
-    "build": "npx webpack",
+    "build": "tsc",
     "build:ts": "tsc"
   },
   "author": "Zak Nichols",
