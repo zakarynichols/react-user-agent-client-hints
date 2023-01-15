@@ -1,12 +1,13 @@
 {
   "name": "react-user-agent-client-hints",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
     "test": "jest --config jest.config.js",
     "start": "node webpack-server.js",
-    "build": "tsc"
+    "build": "npx webpack",
+    "build:ts": "tsc"
   },
   "author": "Zak Nichols",
   "license": "MIT",

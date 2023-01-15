@@ -20,6 +20,6 @@
     "outDir": "./dist",
     "listFiles": false
   },
-  "include": ["./src", "dist/userAgentData.d.ts"],
+  "include": ["./src"],
   "exclude": ["**/*__tests__*"]
 }

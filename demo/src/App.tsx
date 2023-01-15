@@ -22,7 +22,6 @@ export function App() {
   if (!userAgentData) {
     return <div>Loading...</div>
   }
-
   return (
     <div>
       {/* <p>Brands: {userAgentData.brands.map(brand => brand.brand).join(", ")}</p> */}

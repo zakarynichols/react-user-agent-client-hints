@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { UADataValues, UALowEntropyJSON, NavigatorUA } from "../userAgentData"
 
 type Hint =
   | "brand"
@@ -21,6 +22,7 @@ export function useUserAgentData(
 
   useEffect(() => {
     async function getHighEntropyUAData(): Promise<void> {
+      if (!isNavigatorUA(navigator)) return
       try {
         // check if the `navigator.userAgentData` object is available
         if (navigator.userAgentData === undefined) {
@@ -47,7 +49,12 @@ export function useUserAgentData(
   return [userAgentData, error]
 }
 
-function getLowEntropyUserAgentData(): UALowEntropyJSON | void {
+export function getLowEntropyUserAgentData(): UALowEntropyJSON | void {
+  if (!isNavigatorUA(navigator)) return
   if (navigator.userAgentData === undefined) return
   return navigator.userAgentData.toJSON()
+}
+
+export function isNavigatorUA(navigator: unknown): navigator is NavigatorUA {
+  return navigator instanceof Navigator && "userAgentData" in navigator
 }
