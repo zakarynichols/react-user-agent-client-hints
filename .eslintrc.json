@@ -10,11 +10,11 @@
     "node_modules",
     "*.d.ts",
     "*.js",
-    ".jsx"
-    // "*.test.tsx"
-    // "*.test.ts",
-    // "*.spec.ts",
-    // "*.config.ts"
+    ".jsx",
+    "*.test.tsx",
+    "*.test.ts",
+    "*.spec.ts",
+    "*.config.ts"
   ],
   "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
   "parserOptions": {

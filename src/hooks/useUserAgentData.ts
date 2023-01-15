@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useReducer } from "react"
 import { UADataValues, UALowEntropyJSON, NavigatorUA } from "../userAgentData"
 
 type Hint =
@@ -14,48 +14,88 @@ type Hint =
   | "wow64"
   | "fullVersionList"
 
-export function useUserAgentData(hints: Hint[]): UADataValues | Error {
-  const [userAgentData, setUserAgentData] = useState<UADataValues | null>(null)
-  const [error, setError] = useState<Error | null>(null)
+interface State {
+  userAgentData: UADataValues | null
+  error: Error | null
+}
+
+interface SetUserAgentDataAction {
+  type: "SET_USER_AGENT_DATA"
+  payload: UADataValues
+}
+
+interface SetErrorAction {
+  type: "SET_ERROR"
+  payload: Error
+}
+
+type Action = SetUserAgentDataAction | SetErrorAction
+
+const initialState: State = {
+  userAgentData: null,
+  error: null
+}
+
+function reducer(state: State, action: Action): State {
+  switch (action.type) {
+    case "SET_USER_AGENT_DATA":
+      return { ...state, userAgentData: action.payload }
+    case "SET_ERROR":
+      return { ...state, error: action.payload }
+    default:
+      return state
+  }
+}
+
+export function useUserAgentData(
+  hints: Hint[]
+): [UADataValues | null, Error | null] {
+  const [state, dispatch] = useReducer(reducer, initialState)
 
   useEffect(() => {
     async function getHighEntropyUAData(): Promise<void> {
       try {
         if (!isNavigatorUA(navigator)) {
-          setError(
-            new Error(
+          dispatch({
+            type: "SET_ERROR",
+            payload: new Error(
               "High entropy user agent data not available in this browser"
             )
-          )
+          })
           return
         }
         // check if the `navigator.userAgentData` object is available
         if (navigator.userAgentData === undefined) {
-          setError(new Error("User-agent client hints API is undefined."))
+          dispatch({
+            type: "SET_ERROR",
+            payload: new Error("User-agent client hints API is undefined.")
+          })
           return
         }
         // check if the user has granted permission for the client hints
         if (navigator.userAgentData.getHighEntropyValues === undefined) {
-          setError(new Error("Permission denied accessing user-agent data"))
+          dispatch({
+            type: "SET_ERROR",
+            payload: new Error("Permission denied accessing user-agent data")
+          })
           return
         }
         // request the high entropy values
         const agentData = await navigator.userAgentData.getHighEntropyValues(
           hints
         )
-        setUserAgentData(agentData)
+        dispatch({ type: "SET_USER_AGENT_DATA", payload: agentData })
       } catch (err) {
-        setError(new Error("Failed to get user-agent data"))
+        dispatch({
+          type: "SET_ERROR",
+          payload: new Error("Failed to get user-agent data")
+        })
       }
     }
     getHighEntropyUAData()
   }, [hints])
 
-  if (error instanceof Error) return error
-
-  if (userAgentData !== null) return userAgentData
-
-  return new Error("Failed to run hook")
+  return [state.userAgentData, state.error]
 }
 
 export function getLowEntropyUserAgentData(): UALowEntropyJSON | void {
