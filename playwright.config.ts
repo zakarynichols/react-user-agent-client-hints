@@ -1,5 +1,4 @@
 import type { PlaywrightTestConfig } from "@playwright/test"
-import { devices } from "@playwright/test"
 
 /**
  * Read environment variables from file.
@@ -11,6 +10,7 @@ import { devices } from "@playwright/test"
  * See https://playwright.dev/docs/test-configuration.
  */
 const config: PlaywrightTestConfig = {
+  testDir: "./tests",
   use: {
     headless: false,
     viewport: { width: 1280, height: 720 },
@@ -19,16 +19,28 @@ const config: PlaywrightTestConfig = {
   },
   projects: [
     {
-      name: "chromium",
-      use: { ...devices["Desktop Chrome"] }
+      name: "Desktop Chromium",
+      testDir: "./tests/chromium/",
+      use: {
+        browserName: "chromium",
+        viewport: { width: 1280, height: 720 }
+      }
     },
     {
-      name: "firefox",
-      use: { ...devices["Desktop Firefox"] }
+      name: "Desktop Safari",
+      testDir: "./tests/webkit/",
+      use: {
+        browserName: "webkit",
+        viewport: { width: 1280, height: 720 }
+      }
     },
     {
-      name: "webkit",
-      use: { ...devices["Desktop Safari"] }
+      name: "Desktop Firefox",
+      testDir: "./tests/firefox/",
+      use: {
+        browserName: "firefox",
+        viewport: { width: 1280, height: 720 }
+      }
     }
   ],
   webServer: {
