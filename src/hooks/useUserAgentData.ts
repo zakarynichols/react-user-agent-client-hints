@@ -1,7 +1,20 @@
 import { useEffect, useState } from "react"
 
+type Hint =
+  | "brand"
+  | "model"
+  | "version"
+  | "architecture"
+  | "platform"
+  | "mobile"
+  | "platformVersion"
+  | "uaFullVersion"
+  | "bitness"
+  | "wow64"
+  | "fullVersionList"
+
 export function useUserAgentData(
-  hints: string[]
+  hints: Hint[]
 ): [UADataValues | null, Error | null] {
   const [userAgentData, setUserAgentData] = useState<UADataValues | null>(null)
   const [error, setError] = useState<Error | null>(null)

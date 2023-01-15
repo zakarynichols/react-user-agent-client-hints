@@ -65,9 +65,9 @@ interface UADataValues {
 
 If there is an error while fetching the user-agent data, useUserAgentData will return an error object with a message. The possible error messages are:
 
-User-agent client hints API is undefined.: The navigator.userAgentData object is not defined in the browser.
-Permission denied accessing user-agent data: The user has not granted permission for the client hints.
-Failed to get user-agent data: An unexpected error occurred.
+- User-agent client hints API is undefined.: The navigator.userAgentData object is not defined in the browser.
+- Permission denied accessing user-agent data: The user has not granted permission for the client hints.
+- Failed to get user-agent data: An unexpected error occurred.
 
 ### Potential Use Cases
 
