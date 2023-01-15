@@ -2,7 +2,7 @@
   "compilerOptions": {
     "lib": ["ES6", "DOM"],
     "strict": true,
-    "module": "CommonJS",
+    "module": "ESNext",
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "target": "ES6",
@@ -20,5 +20,6 @@
     "outDir": "./dist",
     "listFiles": false
   },
-  "include": ["./src", "user-agent-client-hints.d.ts"]
+  "include": ["./src", "dist/userAgentData.d.ts"],
+  "exclude": ["**/*__tests__*"]
 }
