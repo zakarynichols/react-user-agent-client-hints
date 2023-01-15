@@ -18,7 +18,7 @@ const config: PlaywrightTestConfig = {
     video: "retain-on-failure"
   },
   webServer: {
-    command: "cd src && npm run start",
+    command: "npm run start",
     port: 3000,
     timeout: 120 * 1000,
     reuseExistingServer: !process.env.CI
