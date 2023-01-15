@@ -1,4 +1,4 @@
-import { useUserAgentData } from "react-user-agent-client-hints"
+import { useUserAgentData } from "./hooks/useUserAgentData"
 
 export function App() {
   const [userAgentData, error] = useUserAgentData([
@@ -15,16 +15,17 @@ export function App() {
     "fullVersionList"
   ])
 
-  if (error) {
+  if (error instanceof Error) {
     return <div>{error.message}</div>
   }
 
-  if (!userAgentData) {
+  if (userAgentData === null) {
     return <div>Loading...</div>
   }
+
   return (
     <div>
-      {/* <p>Brands: {userAgentData.brands.map(brand => brand.brand).join(", ")}</p> */}
+      <p>Brands: {userAgentData.brands.map(brand => brand.brand).join(", ")}</p>
       <p>Mobile: {userAgentData.mobile ? "Yes" : "No"}</p>
       <p>Architecture: {userAgentData.architecture}</p>
       <p>Bitness: {userAgentData.bitness}</p>
@@ -35,7 +36,7 @@ export function App() {
       <p>Wow64: {userAgentData.wow64 ? "Yes" : "No"}</p>
       <p>
         Full Version List:{" "}
-        {/* {userAgentData.fullVersionList.map(brand => brand.brand).join(", ")} */}
+        {userAgentData.fullVersionList.map(brand => brand.brand).join(", ")}
       </p>
     </div>
   )

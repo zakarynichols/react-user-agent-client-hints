@@ -14,16 +14,21 @@ type Hint =
   | "wow64"
   | "fullVersionList"
 
-export function useUserAgentData(
-  hints: Hint[]
-): [UADataValues | null, Error | null] {
+export function useUserAgentData(hints: Hint[]): UADataValues | Error {
   const [userAgentData, setUserAgentData] = useState<UADataValues | null>(null)
   const [error, setError] = useState<Error | null>(null)
 
   useEffect(() => {
     async function getHighEntropyUAData(): Promise<void> {
-      if (!isNavigatorUA(navigator)) return
       try {
+        if (!isNavigatorUA(navigator)) {
+          setError(
+            new Error(
+              "High entropy user agent data not available in this browser"
+            )
+          )
+          return
+        }
         // check if the `navigator.userAgentData` object is available
         if (navigator.userAgentData === undefined) {
           setError(new Error("User-agent client hints API is undefined."))
@@ -46,7 +51,11 @@ export function useUserAgentData(
     getHighEntropyUAData()
   }, [hints])
 
-  return [userAgentData, error]
+  if (error instanceof Error) return error
+
+  if (userAgentData !== null) return userAgentData
+
+  return new Error("Failed to run hook")
 }
 
 export function getLowEntropyUserAgentData(): UALowEntropyJSON | void {

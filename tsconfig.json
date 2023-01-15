@@ -20,6 +20,6 @@
     "outDir": "./dist",
     "listFiles": false
   },
-  "include": ["./src"],
+  "include": ["./src", "./tests", "./playwright.config.ts"],
   "exclude": ["**/*__tests__*"]
 }
